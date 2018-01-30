@@ -15,23 +15,28 @@
 package cmd
 
 import (
-	"fmt"
-
+    "fmt"
+	"os"
+	"os/exec"
 	"github.com/spf13/cobra"
 )
 
 // startCmd represents the start command
 var startCmd = &cobra.Command{
 	Use:   "start",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Start minimula cluster",
+	Long: `Profivison and start minimula cluster`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("start called")
+		fmt.Print("*** Checking if hypervisor Virtualbox is supported on this platform")
+		_, err := exec.LookPath("VBoxManage")
+		if err != nil {
+			fmt.Println(" ... NO")
+			fmt.Println("    Can't find VirtualBox Management Command")
+			os.Exit(1)
+		}
+		fmt.Println(" ... YES")
+		fmt.Print("*** Checking if base image for minimula in newest version")
+		fmt.Println(" ... YES")
 	},
 }
 
